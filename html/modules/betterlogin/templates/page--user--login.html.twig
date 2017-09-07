@@ -1,0 +1,25 @@
+<div id="auth_box" class="login">
+  <div id="top_part">
+    <h1 id="the_logo">
+      <a href="{{ url('<front>') }}">
+        <img src="http://www.bancoestado.cl/imagenes/_img/logo-banco-estado.jpg" alt="{{ site_name }}" />
+      </a>
+    </h1>
+  </div>
+  <div id="title_header">
+  </div>
+  <div class="panel-heading">Ingreso</div>
+  <div id="middle_part">
+    {{ messages }}
+
+    {{ page.content }}
+
+    <div id="bottom_part">
+      <div class="password_link">
+        <a href="{{ path('user.pass') }}">{{ 'Forgot your password?'|t }}</a>
+      </div>
+    </div>
+  </div>
+
+
+</div>

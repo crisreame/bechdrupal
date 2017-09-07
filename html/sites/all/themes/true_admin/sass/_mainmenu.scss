@@ -1,0 +1,23 @@
+/* Styling for Main menu. */
+
+.header-inner-wrap {
+    nav {
+        ul li {
+            display: inline-flex;
+            &.is-active a {
+                border-bottom: 3px solid $color_links_active;
+                color: $color_links_active;
+            }
+            a {
+                transition: 0.3s all ease;
+                color: $color_menu;
+                border-bottom: 3px solid $color_white;
+                &:hover,
+                &:focus {
+                    border-bottom: 3px solid $color_links_active;
+                    color: $color_links_active;
+                }
+            }
+        }
+    }
+}

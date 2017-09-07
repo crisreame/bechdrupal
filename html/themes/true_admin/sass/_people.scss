@@ -1,0 +1,8 @@
+/** Styling for Peoples page. */
+
+.views-exposed-form {
+    @extend .form-highlight;
+    .form--inline {
+        @include flex-row;
+    }
+}

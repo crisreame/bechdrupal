@@ -1,0 +1,30 @@
+/* Base styling for True_admin. */
+
+html {
+    color: $color_dark_grey;
+    font-size: 1em;
+    line-height: 1.4;
+}
+body {
+    font-family: $font-family_sourcesansproregular;
+    margin: 0;
+    padding-top: 63px;
+    background-color: #eee;
+    &.toolbar-fixed {
+        padding-top: 140px !important; // Overriding inline styling here.
+    }
+}
+a {
+    transition: all 0.2s ease-in-out;
+}
+a, a:visited {
+    color: $color_links;
+    text-decoration: none;
+}
+*:focus {
+    outline: none;
+}
+::selection {
+    background:#b3d4fc;
+    text-shadow: none;
+}

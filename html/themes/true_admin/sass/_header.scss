@@ -1,0 +1,60 @@
+/* Styling for Header . */
+
+.toolbar-fixed {
+    header {
+        top: 79px;
+    }
+}
+.block-system-branding-block {
+    display: none;
+}
+header {
+    padding: 0 40px;
+    background-color: $color_white;
+    box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 490;
+    .header-inner-wrap {
+        @include flex-row;
+        justify-content: space-between;
+    }
+    ul:not(.contextual-links) {
+        margin: 0;
+        list-style: none;
+        padding: 0;
+        @include flex-row;
+        li {
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+        a {
+            height: 60px;
+            padding: 0 15px;
+            align-items: center;
+            display: flex;
+            color: $color_menu;
+            &.is-active {
+                border-bottom: solid 3px $color_links_active;
+                color: $color_links_active;
+            }
+        }
+    }
+}
+
+// #block-true-admin-branding {
+//     @include flex-row;
+//     align-items: center;
+//     a[title="Home"] {
+//         font-size: 2em;
+//         &:not(:last-child) {
+//             margin-right: 0.6em;
+//         }
+//         img {
+//             width: 100px;
+//         }
+//     }
+// }

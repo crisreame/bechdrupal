@@ -1,0 +1,89 @@
+diff --git a/src/Plugin/Condition/UserHasRole.php b/src/Plugin/Condition/UserHasRole.php
+index 46c1166..5f0e978 100644
+--- a/src/Plugin/Condition/UserHasRole.php
++++ b/src/Plugin/Condition/UserHasRole.php
+@@ -17,7 +17,7 @@ use Drupal\user\UserInterface;
+  *     "user" = @ContextDefinition("entity:user",
+  *       label = @Translation("User")
+  *     ),
+- *     "roles" = @ContextDefinition("entity:user_role",
++ *     "roles" = @ContextDefinition("string",
+  *       label = @Translation("Roles"),
+  *       multiple = TRUE
+  *     ),
+@@ -39,7 +39,7 @@ class UserHasRole extends RulesConditionBase {
+    *
+    * @param \Drupal\user\UserInterface $account
+    *   The account to check.
+-   * @param \Drupal\user\RoleInterface[] $roles
++   * @param string[] $roles
+    *   Array of user roles.
+    * @param string $operation
+    *   Either "AND": user has all of roles.
+@@ -51,16 +51,12 @@ class UserHasRole extends RulesConditionBase {
+    */
+   protected function doEvaluate(UserInterface $account, array $roles, $operation = 'AND') {
+ 
+-    $rids = array_map(function ($role) {
+-      return $role->id();
+-    }, $roles);
+-
+     switch ($operation) {
+       case 'OR':
+-        return (bool) array_intersect($rids, $account->getRoles());
++        return (bool) array_intersect($roles, $account->getRoles());
+ 
+       case 'AND':
+-        return (bool) !array_diff($rids, $account->getRoles());
++        return (bool) !array_diff($roles, $account->getRoles());
+ 
+       default:
+         throw new InvalidArgumentException('Either use "AND" or "OR". Leave empty for default "AND" behavior.');
+diff --git a/src/Plugin/RulesDataProcessor/TokenProcessor.php b/src/Plugin/RulesDataProcessor/TokenProcessor.php
+index f0898c0..86c6550 100644
+--- a/src/Plugin/RulesDataProcessor/TokenProcessor.php
++++ b/src/Plugin/RulesDataProcessor/TokenProcessor.php
+@@ -59,15 +59,35 @@ class TokenProcessor extends PluginBase implements DataProcessorInterface, Conta
+    * {@inheritdoc}
+    */
+   public function process($value, ExecutionStateInterface $rules_state) {
+-    $data = [];
+-    $placeholders_by_data = $this->placeholderResovler->scan($value);
+-    foreach ($placeholders_by_data as $variable_name => $placeholders) {
+-      // Note that accessing an unavailable variable will throw an evaluation
+-      // exception. That's exactly what needs to happen. Invalid tokens must
+-      // be checked when checking integrity.
+-      $data[$variable_name] = $rules_state->getVariable($variable_name);
++
++    if (!is_array($value)) {
++      $values = array($value);
++    }
++    else  {
++      $values = $value;
++    }
++
++    $resolvers = array();
++
++    foreach ($values as $val) {
++      $data = [];
++
++      $placeholders_by_data = $this->placeholderResovler->scan($val);
++      foreach ($placeholders_by_data as $variable_name => $placeholders) {
++        // Note that accessing an unavailable variable will throw an evaluation
++        // exception. That's exactly what needs to happen. Invalid tokens must
++        // be checked when checking integrity.
++        $data[$variable_name] = $rules_state->getVariable($variable_name);
++      }
++
++      $resolvers[] = $this->placeholderResovler->replacePlaceHolders($val, $data);
+     }
+-    return $this->placeholderResovler->replacePlaceHolders($value, $data);
++
++    if (!is_array($value))  {
++      $resolvers = $resolvers[0];
++    }
++
++    return $resolvers;
+   }
+ 
+ }

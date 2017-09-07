@@ -1,0 +1,157 @@
+<?php
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for \Drupal\node\NodeForm.
+ *
+ * Changes vertical tabs to container and adds meta information.
+ */
+
+function jvseven_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  $node = $form_state->getFormObject()->getEntity();
+
+  $form['#theme'] = ['node_edit_form'];
+  $form['#attached']['library'][] = 'seven/node-form';
+
+  $form['advanced']['#type'] = 'container';
+  $is_new = !$node->isNew() ? format_date($node->getChangedTime(), 'short') : t('Not saved yet');
+
+  $pub_status = $node->isPublished() ? 'status-published' : 'status-unpublished';
+  $status_label = $node->isPublished() ? t('Published') : t('Not published');
+  $color_status = $node->isPublished() ? 'icon-green' : 'icon-red';
+
+  $form['meta'] = [
+    '#attributes' => ['class' => ['entity-meta__header']],
+    '#type' => 'container',
+    '#group' => 'advanced',
+    '#weight' => -100,
+    'published' => [
+      '#type' => 'html_tag',
+      '#tag' => 'h3',
+      '#value' => '<i class="fa fa-check-circle-o fa-2x"></i> '. $status_label,
+      '#access' => !$node->isNew(),
+      '#attributes' => [
+        'class' => ['entity-meta__title', $pub_status, $color_status],
+      ],
+    ],
+    'changed' => [
+      '#type' => 'item',
+      '#wrapper_attributes' => ['class' => ['entity-meta__last-saved', 'container-inline']],
+      '#markup' => '<i class="fa fa-calendar fa-2x icon-orangered"></i> <h4 class="label inline">' . t('Last saved') . '</h4> ' . $is_new,
+    ],
+    'author' => [
+      '#type' => 'item',
+      '#wrapper_attributes' => ['class' => ['author', 'container-inline']],
+      '#markup' => '<i class="fa fa-user fa-2x icon-darkblue"></i> <h4 class="label inline">' . t('Author') . '</h4> ' . $node->getOwner()->getUsername(),
+    ],
+  ];
+  $form['revision_information']['#type'] = 'container';
+  $form['revision_information']['#group'] = 'meta';
+
+  $form['actions']['delete']['#attributes']['class'][] = 'jvseven-danger';
+
+  //kint($form['actions']);
+
+}
+
+/**
+ * @file
+ * Functions to support theming in the Jouve Seven theme.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function jvseven_preprocess_html(&$vars) {
+
+
+  $background_image = theme_get_setting('background_image');
+
+  if ($background_image) {
+	$vars['attributes']['class'][] = 'background_image';
+    $vars['attributes']['class'][] = 'background_image-' . $background_image;
+  }
+
+  $container_width = theme_get_setting('container_width');
+  if ($container_width) {
+    $vars['attributes']['class'][] = 'container-fixed-width';
+    $vars['attributes']['class'][] = 'container-width-' . $container_width;
+  }
+
+  $style = '';
+  $font_size = theme_get_setting('font_size');
+  if ($font_size) {
+    $style .= 'font-size: ' . $font_size . 'px;';
+  }
+
+  $font_family = theme_get_setting('font_family');
+  if ($font_family) {
+
+    $font_families = [
+      // Standard.
+      'impact' => 'Impact, Charcoal, sans-serif',
+      'palatino_linotype' => '"Palatino Linotype", "Book Antiqua", Palatino, serif',
+      'tahoma' => 'Tahoma, Geneva, sans-serif',
+      'century-gothic' => 'Century Gothic, sans-serif',
+      'lucida-sans-unicode' => 'Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif',
+      'arial-black' => 'Arial Black’, Gadget, sans-serif',
+      'times-new-roman' => 'Times New Roman’, Times, serif',
+      'arial-warrow' => 'Arial Narrow’, sans-serif',
+      'verdana' => 'Verdana, Geneva, sans-serif',
+      'copperplate-gothic_light' => '"Copperplate / Copperplate", Gothic Light, sans-serif',
+      'lucida-console' => '"Lucida Console", Monaco, monospace',
+      'gill-sans' => '"Gill Sans / Gill", Sans MT, sans-serif',
+      'trebuchet-ms' => '"Trebuchet MS", Helvetica, sans-serif',
+      'courier-new' => '"Courier New", Courier, monospace',
+      'arial' => 'Arial, Helvetica, sans-serif',
+      'georgia' => 'Georgia, "Times New Roman", serif',
+      // Google fonts.
+      'ubuntu' => 'Ubuntu, sans-serif',
+      'open-sans' => '"Open Sans", sans-serif',
+      'josefin-slab' => 'Josefin Slab, serif',
+      'pt-sans' => '"PT Sans", sans-serif',
+      'roboto' => 'Roboto, sans-serif',
+      'source-sans-pro' => '"Source Sans Pro", sans-serif',
+      'exo' => 'Exo, sans-serif',
+    ];
+
+    $style .= 'font-family: ' . $font_families[$font_family];
+  }
+
+  if ($style) {
+    $vars['attributes']['style'] = $style;
+  }
+
+}
+
+/**
+ * Implements hook_attachments_alter().
+ */
+function jvseven_page_attachments_alter(array &$page) {
+
+  // Load google font if needed.
+  $google_fonts = [
+    'ubuntu' => 'Ubuntu',
+    'open-sans' => 'Open+Sans',
+    'josefin-slab' => 'Josefin+Slab',
+    'pt-sans' => 'PT+Sans',
+    'roboto' => 'Roboto',
+    'source-sans-pro' => 'Source+Sans+Pro',
+    'exo' => 'Exo',
+  ];
+
+  $font = theme_get_setting('font_family');
+  if (isset($google_fonts[$font])) {
+    $font_link = [
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => [
+        'href' => 'https://fonts.googleapis.com/css?family=' . $google_fonts[$font],
+        'rel' => 'stylesheet',
+        'type' => 'text/css',
+      ],
+    ];
+    $page['#attached']['html_head'][] = [$font_link, 'font_link'];
+  }
+
+}

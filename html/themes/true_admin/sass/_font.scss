@@ -1,0 +1,25 @@
+/* Fonts for True_admin */
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  src: url('../fonts/SourceSansPro-Regular.woff') format('woff'),
+       url('../fonts/SourceSansPro-Regular.ttf') format('truetype'),
+       url('../fonts/SourceSansPro-Regular.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro Bold';
+  font-style: normal;
+  src: url('../fonts/SourceSansPro-Bold.woff') format('woff'),
+       url('../fonts/SourceSansPro-Bold.ttf') format('truetype'),
+       url('../fonts/SourceSansPro-Bold.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Source Sans Pro Light';
+  font-style: normal;
+  src: url('../fonts/SourceSansPro-ExtraLight.woff') format('woff'),
+       url('../fonts/SourceSansPro-ExtraLight.ttf') format('truetype'),
+       url('../fonts/SourceSansPro-ExtraLight.svg') format('svg');
+}

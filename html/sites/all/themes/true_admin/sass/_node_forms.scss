@@ -1,0 +1,126 @@
+/* Styling for Node forms */
+
+[class*="edit-form"],
+[class*="-form"] {
+    &.node-form {
+        padding: 0;
+        .layout-region-node-main {
+            padding: 30px;
+            border-right: solid 1px $color_background;
+            box-sizing: border-box;
+            .form-checkboxes {
+                @include flex-row;
+                .form-item {
+                    margin-right: 1em;
+                }
+            }
+        }
+        .layout-region-node-secondary {
+            padding: 30px;
+            .description {
+                display: none;
+            }
+            .entity-meta__title {
+                @extend label;
+            }
+            .entity-meta {
+                font-size: 0.85em;
+            }
+            label {
+                font-size: 0.98em;
+                color: $color_black;
+            }
+            h4 {
+                font-weight: normal;
+                &.label {
+                    &:after {
+                        content: ":";
+                        margin-left: 3px;
+                    }
+                }
+            }
+            .flex-row-wrap {
+                @include flex-row;
+                width: 100%;
+                box-sizing: border-box;
+                border-bottom: none;
+            }
+            label {
+                &[for*="edit-revision"] {
+                    font-size: 1.15em;
+                    color: $color_dark_grey;
+                }
+                &[for*="edit-revision-log"] {
+                    font-size: 0.98em;
+                    padding-top: 10px;
+                }
+            }
+            .form-item {
+                margin: 0;
+            }
+            .form-textarea-wrapper {
+                border-left: solid 1px $color_background - 30;
+                border-right: solid 1px $color_background - 30;
+                padding: 0 15px 15px;
+            }
+        }
+        .layout-region-node-footer {
+            border-top: solid 1px $color_background;
+            background-color: $color_white - 4;
+            padding: 20px;
+            width: 100%;
+            border-radius: 0 0 12px 12px;
+            &.header {
+                border-top: none;
+                border-radius: 12px 12px 0 0;
+                border-bottom: solid 1px $color_background;
+                font-weight: bold;
+                font-size: 1.17em;
+                font-family: $font-family_sourcesansprobold;
+                font-style: normal;
+                &:empty {
+                    content: "sudo content";
+                    display: none;
+                }
+            }
+        }
+        .form-item-revision {
+            border-left: solid 1px $color_background - 30;
+            border-right: solid 1px $color_background - 30;
+            border-top: solid 1px $color_background - 30;
+            padding: 15px 15px 0
+        }
+        .entity-meta__last-saved,
+        .form-item-author {
+            > div {
+                border: solid 1px $color_background - 30;
+                padding: 15px;
+            }
+            h4 {
+                margin: 0 3px 0 0;
+            }
+        }
+        label {
+            &[for*="edit-revision-log"] {
+                margin: 0;
+                width: 100%;
+                padding: 15px;
+                border-left: solid 1px $color_background - 30;
+                border-right: solid 1px $color_background - 30;
+                box-sizing: border-box;
+            }
+        }
+        .node-form-revision-information {
+            width: 100%;
+        }
+        .entity-meta__header {
+
+        }
+    }
+}
+
+[class*="page-node-type-"] {
+    .block-page-title-block {
+        opacity: 0
+    }
+}

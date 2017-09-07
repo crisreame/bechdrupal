@@ -1,0 +1,26 @@
+/* Styling for Layout. */
+
+.page-wrapper {
+    max-width: 1280px;
+    width: 100%;
+    margin: 2em auto;
+}
+.header-inner-wrap {
+    @extend .page-wrapper;
+    margin: 0 auto;
+    @include flex-row;
+    justify-content: space-between;
+}
+.main-content {
+    width: 63%;
+    &.full-width {
+        width: 100%;
+    }
+}
+.sidebar {
+    width: 33%;
+}
+.main-wrapper {
+    @include flex-row;
+    justify-content: space-between;
+}
