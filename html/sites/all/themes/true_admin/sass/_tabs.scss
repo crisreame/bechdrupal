@@ -1,0 +1,41 @@
+/* Styling for tabs. */
+
+.primary-tabs {
+    list-style: none;
+    padding: 0;
+    margin-top: -62px;
+    @include flex-row;
+    justify-content: flex-end;
+    border-bottom: 1px solid $color_white_off - 40;
+    li {
+        display: inline-flex;
+        align-items: center;
+        transition: 0.3s all ease;
+        margin: 0 10px;
+        border-bottom: 3px solid transparent;
+        &.is-active {
+            border-bottom: 3px solid $color_links_active;
+            color: $color_links_active;
+        }
+        &:hover,
+        &:focus {
+            border-bottom: 3px solid $color_links_active;
+            color: $color_links_active;
+        }
+        a {
+            color: $color_menu;
+        }
+    }
+    a {
+        padding: 10px 20px 10px 20px;
+    }
+}
+.vertical-tabs {
+    width: 100%;
+    details {
+        padding: 0 20px;
+        fieldset {
+            margin-top: 0;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+/* Styling for Modules page */
+
+.system-modules {
+    .form-search {
+        @extend input[type="text"];
+    }
+    tr {
+        border-bottom: none;
+    }
+    td {
+        &.checkbox {
+            min-width: 25px;
+            width: 4%;
+        }
+        [class*="form-type-checkbox"] {
+            margin-top: 0;
+            margin-left: 0.6em;
+        }
+        &.description {
+            font-size: inherit;
+        }
+    }
+    details {
+        padding: 0;
+        border: none;
+    }
+}

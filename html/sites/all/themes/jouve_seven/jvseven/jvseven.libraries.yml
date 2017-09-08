@@ -1,0 +1,10 @@
+global:
+  css:
+    theme:
+      css/theme.css: {weight: 100}
+      css/font-awesome.min.css: {}
+  js:
+    js/jvseven.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
